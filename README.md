@@ -62,12 +62,12 @@ Works both with one & multiple files mode.
     
     <!-- 
         1. Make it's size restricted by min & max values (in bytes).
-        2. The error message is customized to 'File size must be less that 1mb and more that 1kb!'
+        2. The error message is customized to 'File size must be less that 1mb and more that 1kb!' 
     -->
     <input 
       type="file" 
       [ng2FileSize]="{ min: 1024, max: 1024 * 1024 }"
-      [Ng2FileSizeErrorMsg]="'File size must be less that 1mb and more that 1kb!'"
+      [ng2FileSizeErrorMsg]="'File size must be less that 1mb and more that 1kb!'"
     />
 
     <!--
@@ -77,7 +77,7 @@ Works both with one & multiple files mode.
     <input
       type="file"
       [ng2FileSize]="fileSizeRestrictions"
-      [Ng2FileSizeErrorMsg]="customErrorMessage"
+      [ng2FileSizeErrorMsg]="customErrorMessage"
     />
 ```
 
