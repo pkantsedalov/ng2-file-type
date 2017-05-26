@@ -56,13 +56,13 @@ Works both with one & multiple files mode.
     
     <!-- 
         1. Make it's size restricted by max value (in bytes).
-        2. The error message is a default one: 'File is reqiured'
+        2. The error message is a default one: 'File size is invalid'
     -->
     <input type="file" [ng2FileSize]="{ max: 1024 }" />
     
     <!-- 
         1. Make it's size restricted by min & max values (in bytes).
-        2. The error message is customized to 'There should be a file' 
+        2. The error message is customized to 'File size must be less that 1mb and more that 1kb!'
     -->
     <input 
       type="file" 
