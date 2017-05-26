@@ -7,7 +7,7 @@ node_js:
 
 script:
   - npm test
-  # - npm run e2e
+  - npm run e2e
 
 # for unit tests
 before_install:

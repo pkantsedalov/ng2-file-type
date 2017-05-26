@@ -67,7 +67,7 @@ import {
                     />
                 </div>
             </div>
-            <div class="form-group file-size-default-container">
+            <div class="form-group file-size-container">
                 <label for="sizeRestrictedFileInput">
                     <strong>Size restricted field:</strong>
                 </label>
