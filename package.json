@@ -1,8 +1,8 @@
 {
-  "name": "ng2-file-size",
+  "name": "ng2-file-type",
   "version": "0.0.1",
   "license": "MIT",
-  "description": "Angular input file size directive",
+  "description": "Angular input file type directive",
   "keywords": [
     "angular2",
     "angularjs",
@@ -10,27 +10,27 @@
     "ng2",
     "input",
     "file",
-    "size",
-    "size",
+    "type",
+    "mime",
     "directive",
     "validation",
-    "angular-file-size",
+    "angular-file-type",
     "angular-file-validation"
   ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/pkantsedalov/ng2-file-size.git"
+    "url": "git+ssh://git@github.com/pkantsedalov/ng2-file-type.git"
   },
   "bugs": {
-    "url": "https://github.com/pkantsedalov/ng2-file-size/issues"
+    "url": "https://github.com/pkantsedalov/ng2-file-type/issues"
   },
-  "homepage": "https://github.com/pkantsedalov/ng2-file-size#readme",
+  "homepage": "https://github.com/pkantsedalov/ng2-file-type#readme",
   "scripts": {
     "lite-server": "lite-server -c demo/bs-config.json",
     "demo.serve": "run-s build link demo.build lite-server",
     "demo.build": "ng build -prod --aot --bh /",
     "demo.watch": "ng build -prod --aot --bh / --watch",
-    "demo.build.gh-pages": "ng build -prod --aot --bh /ng2-file-size/ && cp ./demo/dist/index.html ./demo/dist/404.html",
+    "demo.build.gh-pages": "ng build -prod --aot --bh /ng2-file-type/ && cp ./demo/dist/index.html ./demo/dist/404.html",
     "demo.deploy": "gh-pages -d demo/dist",
     "demo.gh-pages": "run-s build demo.build.gh-pages demo.deploy",
     "build": "ngm build -p ./src --clean",
@@ -49,10 +49,10 @@
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "version": "npm run flow.changelog && git add -A"
   },
-  "main": "bundles/ng2-file-size.umd.js",
+  "main": "bundles/ng2-file-type.umd.js",
   "module": [
     {
-      "name": "ng2-file-size",
+      "name": "ng2-file-type",
       "root": "src",
       "outDir": "dist",
       "main": "index.ts",
@@ -78,6 +78,7 @@
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.70",
     "@types/webpack": "^2.2.15",
+    "array-includes": "^3.0.3",
     "chromedriver": "^2.29.0",
     "classlist-polyfill": "^1.0.3",
     "codelyzer": "~2.0.0-beta.1",

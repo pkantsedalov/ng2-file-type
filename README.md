@@ -1,6 +1,6 @@
-# ng2-file-size [![npm version](https://badge.fury.io/js/ng2-file-size.svg)](http://badge.fury.io/js/ng2-file-size) [![npm downloads](https://img.shields.io/npm/dm/ng2-file-size.svg)](https://npmjs.org/ng2-file-size)
+# ng2-file-type [![npm version](https://badge.fury.io/js/ng2-file-type.svg)](http://badge.fury.io/js/ng2-file-type) [![npm downloads](https://img.shields.io/npm/dm/ng2-file-type.svg)](https://npmjs.org/ng2-file-type)
 
-[![Build Status](https://travis-ci.org/pkantsedalov/ng2-file-size.svg?branch=master)](https://travis-ci.org/pkantsedalov/ng2-file-size)
+[![Build Status](https://travis-ci.org/pkantsedalov/ng2-file-type.svg?branch=master)](https://travis-ci.org/pkantsedalov/ng2-file-type)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -17,30 +17,28 @@
 
 ## Description
 
-Angular 2 validation directive for checking `<input type="file" />` value to be of the valid size.
+Angular 2 validation directive for checking `<input type="file" />` value to be of the valid MIME type.
 
 Works both with one & multiple files mode.
 
 ## Installation
-`npm install ng2-file-size --save`
+`npm install ng2-file-type --save`
 
-`npm i ng2-file-size -S` (shortcut)
+`npm i ng2-file-type -S` (shortcut)
 
 ## Usage
-
-**Attention**: in [beta version]() use `[ng2FileSizeErrorMsg]` param instead of `[fileSizeErrorMsg]` one. 
 
 1. import the module to your one:
 
 ```typescript
 
-    import { Ng2FileSizeModule } from 'ng2-file-size';
+    import { Ng2FileTypeModule } from 'ng2-file-type';
 
     @NgModule({
       ...
       imports: [
         ...
-        Ng2FileSizeModule
+        Ng2FileTypeModule
       ]
     })
     ...
@@ -51,40 +49,40 @@ Works both with one & multiple files mode.
 
 ```html
     <!-- 
-        1. Make it's size restricted by min value (in bytes).
-        2. The error message is a default one: 'File size is invalid' 
+        1. Make it's type restricted by string value.
+        2. The error message is a default one: 'File type is invalid'.
     -->
-    <input type="file" [ng2FileSize]="{ min: 1024 }" />
+    <input type="file" [ng2FileType]="'application/json'" />
     
     <!-- 
-        1. Make it's size restricted by max value (in bytes).
-        2. The error message is a default one: 'File size is invalid'
+        1. Make it's type restricted by array of values.
+        2. The error message is a default one: 'File type is invalid'.
     -->
-    <input type="file" [ng2FileSize]="{ max: 1024 }" />
+    <input type="file" [ng2FileType]="['application/json', 'text/plain']" />
     
     <!-- 
-        1. Make it's size restricted by min & max values (in bytes).
-        2. The error message is customized to 'File size must be less that 1mb and more that 1kb!' 
+        1. Make it's type restricted by regex value.
+        2. The error message is customized to 'File type must be less that 1mb and more that 1kb!' 
     -->
     <input 
       type="file" 
-      [ng2FileSize]="{ min: 1024, max: 1024 * 1024 }"
-      [fileSizeErrorMsg]="'File size must be less that 1mb and more that 1kb!'"
+      [ng2FileType]="regexComponentProperty"
+      [fileTypeErrorMsg]="'File type must match the pattern'"
     />
 
     <!--
-        1. Make it's size restricted by dynamic values (in bytes).
+        1. Make it's type restricted by dynamic values.
         2. The error message is customized dynamically
     -->
     <input
       type="file"
-      [ng2FileSize]="fileSizeRestrictions"
-      [fileSizeErrorMsg]="customErrorMessage"
+      [ng2FileType]="fileTypeRestriction"
+      [fileTypeErrorMsg]="customErrorMessage"
     />
 ```
 
 ## Demo
-See it [here](https://pkantsedalov.github.io/ng2-file-size).
+See it [here](https://pkantsedalov.github.io/ng2-file-type).
 
 ## Acknowledgments
 I express my gratitude to the [valor-software](https://github.com/valor-software) team.

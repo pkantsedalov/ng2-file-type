@@ -13,41 +13,41 @@ import {
 import { ElementRef } from '@angular/core';
 
 // Load the implementations that should be tested
-import { Ng2FileSizeDirective } from '../ng2-file-size.directive';
-import SizeTestComponent        from './size-test.component';
+import { Ng2FileTypeDirective } from '../ng2-file-type.directive';
+import TypeTestComponent        from './type-test.component';
 
-let fixture: ComponentFixture<SizeTestComponent>;
-let componentInstance: SizeTestComponent;
+let fixture: ComponentFixture<TypeTestComponent>;
+let componentInstance: TypeTestComponent;
 let inputElement: HTMLElement;
 
-describe('NG2-FILE-SIZE directive', () => {
+describe('NG2-file-type directive', () => {
 
   describe('properties', () => {
 
     it('should create an instance', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
 
       expect(directive).toBeTruthy();
     });
 
-    it('should have "ng2FileSize" property with undefined value by default', () => {
+    it('should have "ng2FileType" property with undefined value by default', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
 
-      expect(directive.ng2FileSize).toBeUndefined();
+      expect(directive.ng2FileType).toBeUndefined();
     });
 
-    it('should have "fileSizeErrorMsg" property with string value "File is required" by default', () => {
+    it('should have "fileTypeErrorMsg" property with string value "File is required" by default', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
 
-      expect(directive.fileSizeErrorMsg).toBe('File size is invalid');
+      expect(directive.fileTypeErrorMsg).toBe('File type is invalid');
     });
 
     it('should have "multiple" property with false boolean value by default', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
 
       expect(directive.multiple).toBe(false);
     });
@@ -56,25 +56,9 @@ describe('NG2-FILE-SIZE directive', () => {
 
   describe('methods', () => {
 
-    it('should have void ngOnInit method', () => {
-      const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
-
-      expect(directive.ngOnInit).toBeDefined();
-      expect(typeof directive.ngOnInit).toBe('function');
-
-      spyOn(directive, 'ngOnInit');
-      const result = directive.ngOnInit();
-
-      expect(result).toBeUndefined();
-      expect(directive.ngOnInit).toHaveBeenCalled();
-      expect(directive.ngOnInit).toHaveBeenCalledTimes(1);
-      expect(directive.ngOnInit).toHaveBeenCalledWith();
-    });
-
     it('should have validate method which is void by default', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
 
       expect(directive.validate).toBeDefined();
       expect(typeof directive.validate).toBe('function');
@@ -87,15 +71,41 @@ describe('NG2-FILE-SIZE directive', () => {
       expect(directive.validate).toHaveBeenCalledTimes(1);
     });
 
-    it('should have validate method which can return an error', () => {
+    it('should have validate method which can return an error [string]', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
-      const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
-      directive.ng2FileSize                 = { min: 1024 };
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
+      directive.ng2FileType                 = 'text/html';
 
       const formControl: FormControl = new FormControl();
       formControl.setValue(new File([''], 'test.txt'));
       const result: ValidationErrors = directive.validate(formControl);
-      const expectedResult: ValidationErrors = {size: 'File size is invalid'};
+      const expectedResult: ValidationErrors = {type: 'File type is invalid'};
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('should have validate method which can return an error [array of strings]', () => {
+      const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
+      directive.ng2FileType                 = ['text/html', 'application/json'];
+
+      const formControl: FormControl = new FormControl();
+      formControl.setValue(new File([''], 'test.txt'));
+      const result: ValidationErrors = directive.validate(formControl);
+      const expectedResult: ValidationErrors = {type: 'File type is invalid'};
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('should have validate method which can return an error [regex]', () => {
+      const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
+      const directive: Ng2FileTypeDirective = new Ng2FileTypeDirective(elementRef);
+      directive.ng2FileType                 = /(.*)\/json/;
+
+      const formControl: FormControl = new FormControl();
+      formControl.setValue(new File([''], 'test.txt'));
+      const result: ValidationErrors = directive.validate(formControl);
+      const expectedResult: ValidationErrors = {type: 'File type is invalid'};
 
       expect(result).toEqual(expectedResult);
     });
@@ -109,30 +119,30 @@ describe('NG2-FILE-SIZE directive', () => {
       return await TestBed.configureTestingModule({
         imports: [ FormsModule ],
         declarations: [
-          SizeTestComponent,
-          Ng2FileSizeDirective
+          TypeTestComponent,
+          Ng2FileTypeDirective
         ]
       }).compileComponents();
 
     });
 
-    it('should detect correct layout of input with directive [ng2FileSize]', async (done: Function) => {
+    it('should detect correct layout of input with directive [ng2FileType]', async (done: Function) => {
 
       try {
-        fixture = TestBed.overrideComponent(SizeTestComponent, {
+        fixture = TestBed.overrideComponent(TypeTestComponent, {
           set: {
             template: `
               <form>
                   <input 
                     type="file" 
                     name="test" 
-                    [ng2FileSize] 
+                    [ng2FileType] 
                     [(ngModel)]="model" 
                   />
               </form>
             `
           }
-        }).createComponent(SizeTestComponent);
+        }).createComponent(TypeTestComponent);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -152,23 +162,23 @@ describe('NG2-FILE-SIZE directive', () => {
 
     });
 
-    it('should detect correct layout of input with directive [ng2FileSize]="{min: <number>}"', async (done: Function) => {
+    it('should detect correct layout of input with directive [ng2FileType]="string"', async (done: Function) => {
 
       try {
-        fixture = TestBed.overrideComponent(SizeTestComponent, {
+        fixture = TestBed.overrideComponent(TypeTestComponent, {
           set: {
             template: `
               <form>
                   <input 
                     type="file" 
                     name="test" 
-                    [ng2FileSize]="{ min: min }" 
+                    [ng2FileType]="'text/plain'" 
                     [(ngModel)]="model" 
                   />
               </form>
             `
           }
-        }).createComponent(SizeTestComponent);
+        }).createComponent(TypeTestComponent);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -188,23 +198,59 @@ describe('NG2-FILE-SIZE directive', () => {
 
     });
 
-    it('should detect correct layout of input with directive [ng2FileSize]="{max: <number>}"', async (done: Function) => {
+    it('should detect correct layout of input with directive [ng2FileType]="[string, string]"', async (done: Function) => {
 
       try {
-        fixture = TestBed.overrideComponent(SizeTestComponent, {
+        fixture = TestBed.overrideComponent(TypeTestComponent, {
           set: {
             template: `
               <form>
                   <input
                     type="file"
                     name="test"
-                    [ng2FileSize]="{ max: max }"
+                    [ng2FileType]="['text/plain', 'text/html']"
                     [(ngModel)]="model"
                   />
               </form>
             `
           }
-        }).createComponent(SizeTestComponent);
+        }).createComponent(TypeTestComponent);
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        inputElement = fixture.nativeElement.querySelector('input');
+
+        expect(inputElement.classList.contains('ng-untouched')).toBe(true);
+        expect(inputElement.classList.contains('ng-pristine')).toBe(true);
+        expect(inputElement.classList.contains('ng-valid')).toBe(true);
+
+        done();
+      } catch (err) {
+        console.error(err.message);
+        done(err);
+      }
+
+    });
+
+    it('should detect correct layout of input with directive [ng2FileType]="regex"', async (done: Function) => {
+
+      try {
+        fixture = TestBed.overrideComponent(TypeTestComponent, {
+          set: {
+            template: `
+              <form>
+                  <input
+                    type="file"
+                    name="test"
+                    [ng2FileType]="regexPattern"
+                    [(ngModel)]="model"
+                  />
+              </form>
+            `
+          }
+        }).createComponent(TypeTestComponent);
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -226,10 +272,10 @@ describe('NG2-FILE-SIZE directive', () => {
 
     describe('"multiple" attribute', () => {
 
-      it('should detect correct correct values of "multiple" property when input has a directive [ng2FileSize] and "multiple" attribute', async (done: Function) => {
+      it('should detect correct correct values of "multiple" property when input has a directive [ng2FileType] and "multiple" attribute', async (done: Function) => {
 
         try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
+          fixture = TestBed.overrideComponent(TypeTestComponent, {
             set: {
               template: `
               <form>
@@ -237,21 +283,21 @@ describe('NG2-FILE-SIZE directive', () => {
                     type="file"
                     name="test"
                     multiple
-                    [ng2FileSize]
+                    [ng2FileType]
                     [(ngModel)]="model"
-                    #ng2fsd=ng2FileSizeDirective
+                    #ng2ftd=ng2FileTypeDirective
                   />
               </form>
             `
             }
-          }).createComponent(SizeTestComponent);
+          }).createComponent(TypeTestComponent);
 
           fixture.detectChanges();
           await fixture.whenStable();
           fixture.detectChanges();
 
           componentInstance = fixture.componentInstance;
-          expect(componentInstance.ng2fsd.multiple).toBe(true);
+          expect(componentInstance.ng2ftd.multiple).toBe(true);
 
           done();
         } catch (err) {
@@ -261,10 +307,10 @@ describe('NG2-FILE-SIZE directive', () => {
 
       });
       
-      it('should detect correct correct values of "multiple" property when input has a directive [ng2FileSize] and multiple="multiple" attribute', async (done: Function) => {
+      it('should detect correct correct values of "multiple" property when input has a directive [ng2FileType] and multiple="multiple" attribute', async (done: Function) => {
 
         try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
+          fixture = TestBed.overrideComponent(TypeTestComponent, {
             set: {
               template: `
               <form>
@@ -272,21 +318,21 @@ describe('NG2-FILE-SIZE directive', () => {
                     type="file"
                     name="test"
                     multiple="multiple"
-                    [ng2FileSize]
+                    [ng2FileType]
                     [(ngModel)]="model"
-                    #ng2fsd=ng2FileSizeDirective
+                    #ng2ftd=ng2FileTypeDirective
                   />
               </form>
             `
             }
-          }).createComponent(SizeTestComponent);
+          }).createComponent(TypeTestComponent);
 
           fixture.detectChanges();
           await fixture.whenStable();
           fixture.detectChanges();
 
           componentInstance = fixture.componentInstance;
-          expect(componentInstance.ng2fsd.multiple).toBe(true);
+          expect(componentInstance.ng2ftd.multiple).toBe(true);
 
           done();
         } catch (err) {
@@ -296,10 +342,10 @@ describe('NG2-FILE-SIZE directive', () => {
 
       });
 
-      it('should detect correct correct values of "multiple" property when input has a directive [ng2FileSize] and [multiple]="false" attribute', async (done: Function) => {
+      it('should detect correct correct values of "multiple" property when input has a directive [ng2FileType] and [multiple]="false" attribute', async (done: Function) => {
 
         try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
+          fixture = TestBed.overrideComponent(TypeTestComponent, {
             set: {
               template: `
                 <form>
@@ -307,21 +353,21 @@ describe('NG2-FILE-SIZE directive', () => {
                       type="file"
                       name="test"
                       [multiple]="false"
-                      [ng2FileSize]
+                      [ng2FileType]
                       [(ngModel)]="model"
-                      #ng2fsd=ng2FileSizeDirective
+                      #ng2ftd=ng2FileTypeDirective
                     />
                 </form>
               `
             }
-          }).createComponent(SizeTestComponent);
+          }).createComponent(TypeTestComponent);
 
           fixture.detectChanges();
           await fixture.whenStable();
           fixture.detectChanges();
 
           componentInstance = fixture.componentInstance;
-          expect(componentInstance.ng2fsd.multiple).toBe(false);
+          expect(componentInstance.ng2ftd.multiple).toBe(false);
 
           done();
         } catch (err) {
@@ -335,10 +381,10 @@ describe('NG2-FILE-SIZE directive', () => {
 
     describe('restrictions', () => {
 
-      it('should detect correct values of "ng2FileSize" property when input has a directive [ng2FileSize] and { min } value', async (done: Function) => {
+      it('should detect correct values of "ng2FileType" property when input has a directive [ng2FileType] and string value', async (done: Function) => {
 
         try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
+          fixture = TestBed.overrideComponent(TypeTestComponent, {
             set: {
               template: `
               <form>
@@ -346,23 +392,21 @@ describe('NG2-FILE-SIZE directive', () => {
                     type="file"
                     name="test"
                     multiple
-                    [ng2FileSize]="{ min: min }"
+                    [ng2FileType]="'text/json'"
                     [(ngModel)]="model"
-                    #ng2fsd=ng2FileSizeDirective
+                    #ng2ftd=ng2FileTypeDirective
                   />
               </form>
             `
             }
-          }).createComponent(SizeTestComponent);
+          }).createComponent(TypeTestComponent);
 
           fixture.detectChanges();
           await fixture.whenStable();
           fixture.detectChanges();
 
           componentInstance = fixture.componentInstance;
-          expect(componentInstance.ng2fsd.ng2FileSize).toEqual({
-            min: componentInstance.min
-          });
+          expect(componentInstance.ng2ftd.ng2FileType).toEqual('text/json');
 
           done();
         } catch (err) {
@@ -372,10 +416,10 @@ describe('NG2-FILE-SIZE directive', () => {
 
       });
 
-      it('should detect correct values of "ng2FileSize" property when input has a directive [ng2FileSize] and { max } value', async (done: Function) => {
+      it('should detect correct values of "ng2FileType" property when input has a directive [ng2FileType] and array of string value', async (done: Function) => {
 
         try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
+          fixture = TestBed.overrideComponent(TypeTestComponent, {
             set: {
               template: `
               <form>
@@ -383,23 +427,21 @@ describe('NG2-FILE-SIZE directive', () => {
                     type="file"
                     name="test"
                     multiple
-                    [ng2FileSize]="{ max: max }"
+                    [ng2FileType]="['text/json', 'text/html']"
                     [(ngModel)]="model"
-                    #ng2fsd=ng2FileSizeDirective
+                    #ng2ftd=ng2FileTypeDirective
                   />
               </form>
             `
             }
-          }).createComponent(SizeTestComponent);
+          }).createComponent(TypeTestComponent);
 
           fixture.detectChanges();
           await fixture.whenStable();
           fixture.detectChanges();
 
           componentInstance = fixture.componentInstance;
-          expect(componentInstance.ng2fsd.ng2FileSize).toEqual({
-            max: componentInstance.max
-          });
+          expect(componentInstance.ng2ftd.ng2FileType).toEqual(['text/json', 'text/html']);
 
           done();
         } catch (err) {
@@ -409,10 +451,10 @@ describe('NG2-FILE-SIZE directive', () => {
 
       });
 
-      it('should detect correct values of "ng2FileSize" property when input has a directive [ng2FileSize] and { max, max } value', async (done: Function) => {
+      it('should detect correct values of "ng2FileType" property when input has a directive [ng2FileType] and regex value', async (done: Function) => {
 
         try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
+          fixture = TestBed.overrideComponent(TypeTestComponent, {
             set: {
               template: `
               <form>
@@ -420,72 +462,26 @@ describe('NG2-FILE-SIZE directive', () => {
                     type="file"
                     name="test"
                     multiple
-                    [ng2FileSize]="range"
+                    [ng2FileType]="regexPattern"
                     [(ngModel)]="model"
-                    #ng2fsd=ng2FileSizeDirective
+                    #ng2ftd=ng2FileTypeDirective
                   />
               </form>
             `
             }
-          }).createComponent(SizeTestComponent);
+          }).createComponent(TypeTestComponent);
 
           fixture.detectChanges();
           await fixture.whenStable();
           fixture.detectChanges();
 
           componentInstance = fixture.componentInstance;
-          expect(componentInstance.ng2fsd.ng2FileSize).toEqual(componentInstance.range);
+          expect(componentInstance.ng2ftd.ng2FileType).toEqual(componentInstance.regexPattern);
 
           done();
         } catch (err) {
           console.error(err.message);
           done(err);
-        }
-
-      });
-
-    });
-
-    describe('exceptions', () => {
-
-      it('should detect an exception when the directive is not on <input/> tag', (done: Function) => {
-
-        try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
-            set: {
-              template: `
-              <form>
-                  <span [ng2FileSize] [(ngModel)]="model"></span>
-              </form>
-            `
-            }
-          }).createComponent(SizeTestComponent);
-
-          fixture.detectChanges();
-        } catch (err) {
-          expect(err.message).toEqual('Ng2FileSizeDirective: DOM element must be input, not SPAN');
-          done();
-        }
-
-      });
-
-      it('should detect an exception when the directive is not on <input type="file" /> tag', (done: Function) => {
-
-        try {
-          fixture = TestBed.overrideComponent(SizeTestComponent, {
-            set: {
-              template: `
-              <form>
-                  <input type="text" [ng2FileSize] [(ngModel)]="model" />
-              </form>
-            `
-            }
-          }).createComponent(SizeTestComponent);
-
-          fixture.detectChanges();
-        } catch (err) {
-          expect(err.message).toEqual('Ng2FileSizeDirective: input must be type of "file", not "text"');
-          done();
         }
 
       });

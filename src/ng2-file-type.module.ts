@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule }  from '@angular/forms';
 import { NgModule }     from '@angular/core';
 
-import { Ng2FileSizeDirective } from './ng2-file-size.directive';
+import { Ng2FileTypeDirective } from './ng2-file-type.directive';
 
 @NgModule({
   imports: [
@@ -10,10 +10,10 @@ import { Ng2FileSizeDirective } from './ng2-file-size.directive';
     FormsModule
   ],
   declarations: [
-    Ng2FileSizeDirective
+    Ng2FileTypeDirective
   ],
   exports: [
-    Ng2FileSizeDirective
+    Ng2FileTypeDirective
   ]
 })
-export class Ng2FileSizeModule {}
+export class Ng2FileTypeModule {}

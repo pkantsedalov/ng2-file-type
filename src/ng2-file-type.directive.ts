@@ -1,5 +1,4 @@
 import {
-  OnInit,
   OnChanges,
   DoCheck,
   SimpleChanges,
@@ -15,13 +14,7 @@ import {
   ValidationErrors
 } from '@angular/forms';
 
-import {
-  FileSizeRestrictions,
-  isMinFileSizeRestrictions,
-  isMaxFileSizeRestrictions,
-  MinFileSizeRestriction,
-  MaxFileSizeRestriction
-} from './file-size-restrictions.interface';
+import { FileTypeRestriction } from './file-type-restrictions.interface';
 
 type HTMLFileInputMultipleAttribute = any | boolean;
 interface FileInputEventTarget extends EventTarget {
@@ -29,31 +22,31 @@ interface FileInputEventTarget extends EventTarget {
 }
 
 @Directive({
-  selector:  '[ng2FileSize][formControlName],[ng2FileSize][formControl],[ng2FileSize][ngModel]',
-  exportAs:  'ng2FileSizeDirective',
+  selector:  'input[type="file"][ng2FileType][formControlName],input[type="file"][ng2FileType][formControl],input[type="file"][ng2FileType][ngModel]',
+  exportAs:  'ng2FileTypeDirective',
   providers: [
     {
       provide:     NG_VALIDATORS,
-      useExisting: Ng2FileSizeDirective,
+      useExisting: Ng2FileTypeDirective,
       multi:       true
     }
   ]
 })
-export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoCheck {
+export class Ng2FileTypeDirective implements Validator, OnChanges, DoCheck {
 
   /**
-   * @type {boolean}
+   * @type {FileTypeRestriction}
    * @public
    */
   @Input()
-  public ng2FileSize: FileSizeRestrictions;
+  public ng2FileType: FileTypeRestriction;
 
   /**
    * @type {string}
    * @public
    */
   @Input()
-  public fileSizeErrorMsg: string = 'File size is invalid';
+  public fileTypeErrorMsg: string = 'File type is invalid';
 
   /**
    * @type {boolean}
@@ -91,13 +84,10 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
 
   /**
    *
-   * @type {{}}
+   * @type {FileTypeRestriction}
    * @private
    */
-  private _oldValues: FileSizeRestrictions = {
-    min: 0,
-    max: 0
-  };
+  private _oldValue: FileTypeRestriction;
 
   /**
    *
@@ -112,20 +102,11 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
   /**
    *
    * @return {void}
-   * @public
-   */
-  public ngOnInit(): void {
-    this._validateElement();
-  }
-
-  /**
-   *
-   * @return {void}
    * @param {SimpleChanges} changes
    */
   public ngOnChanges(changes: SimpleChanges): void {
     // error message has been changed
-    if (changes.fileSizeErrorMsg && !changes.fileSizeErrorMsg.firstChange) {
+    if (changes.fileTypeErrorMsg && !changes.fileTypeErrorMsg.firstChange) {
       this._setValidity(this._getInputValue(this._element.nativeElement as FileInputEventTarget));
     }
   }
@@ -137,25 +118,12 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
    */
   public ngDoCheck(): void {
 
-    if (this._control && this.ng2FileSize) {
+    if (this._control) {
       let changeDetected = false;
 
-      if (
-          isMinFileSizeRestrictions(this.ng2FileSize) && isMinFileSizeRestrictions(this._oldValues)
-          &&
-          this.ng2FileSize.min !== this._oldValues.min
-      ) {
+      if (this.ng2FileType !== this._oldValue) {
         changeDetected = true;
-        (<MinFileSizeRestriction>this._oldValues).min = this.ng2FileSize.min;
-      }
-
-      if (
-          isMaxFileSizeRestrictions(this.ng2FileSize) && isMaxFileSizeRestrictions(this._oldValues)
-          &&
-          this.ng2FileSize.max !== this._oldValues.max
-      ) {
-        changeDetected = true;
-        (<MaxFileSizeRestriction>this._oldValues).max = this.ng2FileSize.max;
+        this._oldValue = this.ng2FileType;
       }
 
       if (changeDetected) {
@@ -177,7 +145,7 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
 
     if (this._hasError(this._control.value)) {
       return {
-        size: this.fileSizeErrorMsg
+        type: this.fileTypeErrorMsg
       } as ValidationErrors;
     }
   }
@@ -202,10 +170,10 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
     const errors: ValidationErrors = Object.assign({}, this._control.errors);
 
     if (this._hasError(value)) {
-      errors.size = this.fileSizeErrorMsg;
+      errors.type = this.fileTypeErrorMsg;
     } else {
-      if (this._control.hasError('size')) {
-        delete errors.size;
+      if (this._control.hasError('type')) {
+        delete errors.type;
       }
     }
 
@@ -219,7 +187,7 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
    * @private
    */
   private _hasError(value: File|FileList|undefined): boolean {
-    return this.ng2FileSize && !this._hasValidSize(value);
+    return this.ng2FileType && !this._hasValidType(value);
   }
 
   /**
@@ -228,25 +196,25 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
    * @return {boolean}
    * @private
    */
-  private _hasValidSize(value: File|FileList|undefined): boolean {
+  private _hasValidType(value: File|FileList|undefined): boolean {
     let valid: boolean = true;
 
     if (value) {
 
-      if (this.multiple && !!(<FileList>value).length) {
-        value = <FileList>value;
+      if (this.multiple && !!(value as FileList).length) {
+        value = value as FileList;
 
-        for (let i = 0, length = value.length; i < length; i++) {
+        for (let i = 0; i < value.length; i++) {
           const file: File = value.item(i);
 
-          if (!this._validateSize(file)) {
+          if (!this._validateType(file)) {
             valid = false;
             break;
           }
         }
 
       } else {
-        valid = this._validateSize(<File|undefined>value);
+        valid = this._validateType(value as File|undefined);
       }
     }
 
@@ -259,17 +227,19 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
    * @returns {boolean}
    * @private
    */
-  private _validateSize(value: File|undefined): boolean {
+  private _validateType(value: File|undefined): boolean {
     let valid: boolean = true;
 
     if (value) {
 
-      let isMin = isMinFileSizeRestrictions(this.ng2FileSize) && this.ng2FileSize.min ?
-          value.size >= this.ng2FileSize.min : true;
-      let isMax = isMaxFileSizeRestrictions(this.ng2FileSize) && this.ng2FileSize.max ?
-          value.size <= this.ng2FileSize.max : true;
+      if (this.ng2FileType instanceof RegExp) {
+        valid = this.ng2FileType.test(value.type);
+      } else if (typeof this.ng2FileType === 'string') {
+        valid = this.ng2FileType === value.type;
+      } else if (Array.isArray(this.ng2FileType)) {
+        valid = this.ng2FileType.includes(value.type);
+      }
 
-      valid = isMin && isMax;
     }
 
     return valid;
@@ -284,24 +254,5 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
   private _getInputValue(eventTarget: FileInputEventTarget): File|FileList|undefined {
     return this.multiple ? eventTarget.files : eventTarget.files.item(0);
   }
-
-  /**
-   *
-   * @throws {Error}
-   * @private
-   */
-  private _validateElement(): void {
-    let elemType: string  = this._element.nativeElement.tagName;
-    let inputType: string = this._element.nativeElement.getAttribute('type');
-
-    if (elemType !== 'INPUT') {
-      throw new Error(`Ng2FileSizeDirective: DOM element must be input, not ${elemType}`);
-    }
-
-    if (inputType !== 'file') {
-      throw new Error(`Ng2FileSizeDirective: input must be type of "file", not "${inputType}"`);
-    }
-
-  };
 
 }

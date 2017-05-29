@@ -3,7 +3,7 @@ import {  Routes, RouterModule  } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
-import { Ng2FileSizeDemoComponent } from './pages/size/ng2-file-size-demo.component';
+import { Ng2FileTypeDemoComponent } from './pages/type/ng2-file-type-demo.component';
 
 const routes: Routes = [
     {
@@ -12,7 +12,7 @@ const routes: Routes = [
         children: [
             {
                 path:      '',
-                component: Ng2FileSizeDemoComponent
+                component: Ng2FileTypeDemoComponent
             }
         ]
     }

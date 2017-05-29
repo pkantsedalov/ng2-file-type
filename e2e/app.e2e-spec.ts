@@ -11,7 +11,7 @@ const hasClass = async (element: ElementFinder, className: string): Promise<bool
   return classesArray.includes(className);
 };
 
-describe('ng2-presentation App', () => {
+describe('NG2 File Type Validation Directive', () => {
   let page: Ng2PresentationPage;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('ng2-presentation App', () => {
 
   describe('restrictions', () => {
 
-    it('should check the default state of <input type="file" [ng2FileSize] />', async () => {
+    it('should check the default state of <input type="file" [ng2FileType] />', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder = page.getFileInput();
 
@@ -29,82 +29,77 @@ describe('ng2-presentation App', () => {
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-invalid CSS class');
     });
 
-    it('should check the state of <input type="file" [ng2FileSize] /> after setting a value of valid size', async () => {
+    it('should check the state of <input type="file" [ng2FileType] /> after setting a value of valid type [string]', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder = page.getFileInput();
 
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'normal.png'));
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
 
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
     });
 
-    it('should check the state of <input type="file" [ng2FileSize] /> after resetting a value', async () => {
+    it('should check the state of <input type="file" [ng2FileType] /> after resetting a value', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder = page.getFileInput();
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'normal.png'));
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       await fileInputHtmlElement.clear();
 
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-invalid CSS class');
     });
 
-    it('should check the state of <input type="file" [ng2FileSize] /> after decreasing a "min" value', async () => {
+    it('should check the state of <input type="file" [ng2FileType] /> after setting a value of valid types [array]', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder = page.getFileInput();
-      const sizeRestrictionsMinInputHtmlElement: ElementFinder = page.getElementBySelector('#sizeRestrictionsMinInput');
+      const typeRestrictionsMinInputHtmlElement: ElementFinder = page.getElementBySelector('#arrayRestriction');
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'small.png'));
-      expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
+      await typeRestrictionsMinInputHtmlElement.click();
 
-      await sizeRestrictionsMinInputHtmlElement.clear();
-      sizeRestrictionsMinInputHtmlElement.sendKeys('1');
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
+
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
+
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
+      expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 
-    it('should check the state of <input type="file" [ng2FileSize] /> after increasing a "max" value', async () => {
+    it('should check the state of <input type="file" [ng2FileType] /> after setting a value of valid type [regex]', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder = page.getFileInput();
-      const sizeRestrictionsMinInputHtmlElement: ElementFinder = page.getElementBySelector('#sizeRestrictionsMaxInput');
+      const typeRestrictionsMinInputHtmlElement: ElementFinder = page.getElementBySelector('#regexRestriction');
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'large.png'));
-      expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
+      await typeRestrictionsMinInputHtmlElement.click();
 
-      await sizeRestrictionsMinInputHtmlElement.clear();
-      sizeRestrictionsMinInputHtmlElement.sendKeys(`${1024 * 1024 * 100}`);
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
+
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 
   });
 
   describe('error message', () => {
 
-    it('should check the default error message for too small file', async () => {
+    it('should check the default error message for invalid file', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder    = page.getFileInput();
-      const errorMessageHtmlElement: ElementFinder = page.getElementBySelector('.file-size-container .size-error-msg-text');
+      const errorMessageHtmlElement: ElementFinder = page.getElementBySelector('.type-error-msg-text');
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'small.png'));
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
 
-      expect(await errorMessageHtmlElement.getText() === 'File size is invalid').toBe(true, 'no default error message');
-    });
-
-    it('should check the default error message for too big file', async () => {
-      page.navigateTo('');
-      const fileInputHtmlElement: ElementFinder    = page.getFileInput();
-      const errorMessageHtmlElement: ElementFinder = page.getElementBySelector('.file-size-container .size-error-msg-text');
-
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'large.png'));
-
-      expect(await errorMessageHtmlElement.getText() === 'File size is invalid').toBe(true, 'no default error message');
+      expect(await errorMessageHtmlElement.getText() === 'File type is invalid').toBe(true, 'no default error message');
     });
 
     it('should check the custom error message', async () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder     = page.getFileInput();
-      const errorMessageHtmlElement: ElementFinder  = page.getElementBySelector('.file-size-container .size-error-msg-text');
-      const errorMsgInputHtmlElement: ElementFinder = page.getElementBySelector('#sizeRestrictionsErrorMsgInput');
+      const errorMessageHtmlElement: ElementFinder  = page.getElementBySelector('.type-error-msg-text');
+      const errorMsgInputHtmlElement: ElementFinder = page.getElementBySelector('#errorMessageInput');
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'large.png'));
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
 
       await errorMsgInputHtmlElement.clear();
       errorMsgInputHtmlElement.sendKeys('Test');

@@ -5,19 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent }             from './app.component';
-import { Ng2FileSizeDemoComponent } from './pages/size/ng2-file-size-demo.component';
-import { Ng2FileSizeModule }        from 'ng2-file-size';
+import { Ng2FileTypeDemoComponent } from './pages/type/ng2-file-type-demo.component';
+import { Ng2FileTypeModule }        from 'ng2-file-type';
 
 @NgModule({
   declarations: [
     AppComponent,
-    Ng2FileSizeDemoComponent,
+    Ng2FileTypeDemoComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    Ng2FileSizeModule
+    Ng2FileTypeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
