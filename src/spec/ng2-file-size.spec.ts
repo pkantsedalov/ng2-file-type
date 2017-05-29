@@ -38,11 +38,11 @@ describe('NG2-FILE-SIZE directive', () => {
       expect(directive.ng2FileSize).toBeUndefined();
     });
 
-    it('should have "ng2FileSizeErrorMsg" property with string value "File is required" by default', () => {
+    it('should have "fileSizeErrorMsg" property with string value "File is required" by default', () => {
       const elementRef: ElementRef          = new ElementRef(document.createElement('input'));
       const directive: Ng2FileSizeDirective = new Ng2FileSizeDirective(elementRef);
 
-      expect(directive.ng2FileSizeErrorMsg).toBe('File size is invalid');
+      expect(directive.fileSizeErrorMsg).toBe('File size is invalid');
     });
 
     it('should have "multiple" property with false boolean value by default', () => {

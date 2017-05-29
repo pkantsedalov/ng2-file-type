@@ -80,7 +80,7 @@ import {
                     #sizeRestrictedHtmlElement
                     [(ngModel)]="sizeRestrictedFile"
                     [ng2FileSize]="sizeRestrictions"
-                    [ng2FileSizeErrorMsg]="errorMessage"
+                    [fileSizeErrorMsg]="errorMessage"
                     #ng2fsd="ng2FileSizeDirective"                    
                 />
                 <div class="alert alert-success" *ngIf="sizeRestrictedFileInput.valid">
@@ -120,6 +120,6 @@ export class Ng2FileSizeDemoComponent implements OnInit {
      * @returns {void}
      */
     public ngOnInit(): void {
-      this.errorMessage = this.ng2fsd.ng2FileSizeErrorMsg;
+      this.errorMessage = this.ng2fsd.fileSizeErrorMsg;
     }
 }

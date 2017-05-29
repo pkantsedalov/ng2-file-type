@@ -28,6 +28,8 @@ Works both with one & multiple files mode.
 
 ## Usage
 
+**Attention**: in [beta version]() use `[ng2FileSizeErrorMsg]` param instead of `[fileSizeErrorMsg]` one. 
+
 1. import the module to your one:
 
 ```typescript
@@ -67,7 +69,7 @@ Works both with one & multiple files mode.
     <input 
       type="file" 
       [ng2FileSize]="{ min: 1024, max: 1024 * 1024 }"
-      [ng2FileSizeErrorMsg]="'File size must be less that 1mb and more that 1kb!'"
+      [fileSizeErrorMsg]="'File size must be less that 1mb and more that 1kb!'"
     />
 
     <!--
@@ -77,7 +79,7 @@ Works both with one & multiple files mode.
     <input
       type="file"
       [ng2FileSize]="fileSizeRestrictions"
-      [ng2FileSizeErrorMsg]="customErrorMessage"
+      [fileSizeErrorMsg]="customErrorMessage"
     />
 ```
 

@@ -53,7 +53,7 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
    * @public
    */
   @Input()
-  public ng2FileSizeErrorMsg: string = 'File size is invalid';
+  public fileSizeErrorMsg: string = 'File size is invalid';
 
   /**
    * @type {boolean}
@@ -125,7 +125,7 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
    */
   public ngOnChanges(changes: SimpleChanges): void {
     // error message has been changed
-    if (changes.ng2FileSizeErrorMsg && !changes.ng2FileSizeErrorMsg.firstChange) {
+    if (changes.fileSizeErrorMsg && !changes.fileSizeErrorMsg.firstChange) {
       this._setValidity(this._getInputValue(this._element.nativeElement as FileInputEventTarget));
     }
   }
@@ -177,7 +177,7 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
 
     if (this._hasError(this._control.value)) {
       return {
-        size: this.ng2FileSizeErrorMsg
+        size: this.fileSizeErrorMsg
       } as ValidationErrors;
     }
   }
@@ -202,7 +202,7 @@ export class Ng2FileSizeDirective implements Validator, OnInit, OnChanges, DoChe
     const errors: ValidationErrors = Object.assign({}, this._control.errors);
 
     if (this._hasError(value)) {
-      errors.size = this.ng2FileSizeErrorMsg;
+      errors.size = this.fileSizeErrorMsg;
     } else {
       if (this._control.hasError('size')) {
         delete errors.size;
