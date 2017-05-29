@@ -7,9 +7,9 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
   - [Description](#description)
+  - [Demo](#demo)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [Demo](#demo)
   - [Acknowledgments](#acknowledgments)
   - [Development](#development)
 
@@ -20,6 +20,9 @@
 Angular 2 validation directive for checking `<input type="file" />` value to be of the valid MIME type.
 
 Works both with one & multiple files mode.
+
+## Demo
+See it [here](https://pkantsedalov.github.io/ng2-file-type).
 
 ## Installation
 `npm install ng2-file-type --save`
@@ -80,9 +83,6 @@ Works both with one & multiple files mode.
       [fileTypeErrorMsg]="customErrorMessage"
     />
 ```
-
-## Demo
-See it [here](https://pkantsedalov.github.io/ng2-file-type).
 
 ## Acknowledgments
 I express my gratitude to the [valor-software](https://github.com/valor-software) team.
