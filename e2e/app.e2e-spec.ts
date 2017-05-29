@@ -35,7 +35,6 @@ describe('NG2 File Type Validation Directive', () => {
 
       fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
 
-      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
     });
 
@@ -56,18 +55,15 @@ describe('NG2 File Type Validation Directive', () => {
 
       await typeRestrictionsMinInputHtmlElement.click();
 
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
-      page.sleep(5000);
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
       await fileInputHtmlElement.clear();
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
-      page.sleep(5000);
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
       await fileInputHtmlElement.clear();
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
-      page.sleep(5000);
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
       expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 
@@ -78,13 +74,11 @@ describe('NG2 File Type Validation Directive', () => {
 
       await typeRestrictionsMinInputHtmlElement.click();
 
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
-      page.sleep(5000);
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
       await fileInputHtmlElement.clear();
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
-      page.sleep(5000);
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
       expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 

@@ -18,8 +18,4 @@ export class Ng2PresentationPage {
     return element(by.css('input[type="file"]'));
   }
 
-  public sleep(msTime: number): void {
-    browser.sleep(msTime);
-  }
-
 }
