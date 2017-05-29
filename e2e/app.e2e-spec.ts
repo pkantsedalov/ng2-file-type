@@ -1,6 +1,6 @@
 /* global __dirname */
 
-import {browser, ElementFinder} from 'protractor';
+import { ElementFinder } from 'protractor';
 import * as path         from 'path';
 
 import { Ng2PresentationPage } from './app.po';
@@ -35,6 +35,7 @@ describe('NG2 File Type Validation Directive', () => {
 
       fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
 
+      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
     });
 
@@ -55,15 +56,18 @@ describe('NG2 File Type Validation Directive', () => {
 
       await typeRestrictionsMinInputHtmlElement.click();
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
+      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
       await fileInputHtmlElement.clear();
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
       await fileInputHtmlElement.clear();
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
+      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 
@@ -74,11 +78,13 @@ describe('NG2 File Type Validation Directive', () => {
 
       await typeRestrictionsMinInputHtmlElement.click();
 
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
+      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
       await fileInputHtmlElement.clear();
-      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      page.sleep(5000);
       expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 
