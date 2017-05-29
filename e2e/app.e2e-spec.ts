@@ -33,7 +33,7 @@ describe('NG2 File Type Validation Directive', () => {
       page.navigateTo('');
       const fileInputHtmlElement: ElementFinder = page.getFileInput();
 
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
 
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
     });
@@ -58,9 +58,11 @@ describe('NG2 File Type Validation Directive', () => {
       fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
+      await fileInputHtmlElement.clear();
       fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
+      await fileInputHtmlElement.clear();
       fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.html'));
       expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
@@ -72,10 +74,11 @@ describe('NG2 File Type Validation Directive', () => {
 
       await typeRestrictionsMinInputHtmlElement.click();
 
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.json'));
       expect(await hasClass(fileInputHtmlElement, 'ng-valid')).toBe(true, 'no ng-valid CSS class');
 
-      await fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
+      await fileInputHtmlElement.clear();
+      fileInputHtmlElement.sendKeys(path.resolve(__dirname, 'test.txt'));
       expect(await hasClass(fileInputHtmlElement, 'ng-invalid')).toBe(true, 'no ng-invalid CSS class');
     });
 
