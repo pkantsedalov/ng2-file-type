@@ -1,6 +1,6 @@
 {
   "name": "ng2-file-type",
-  "version": "0.0.0-alpha",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/core": "^4.0.2",
     "@angular/forms": "^4.0.2",

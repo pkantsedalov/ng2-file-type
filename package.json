@@ -1,6 +1,6 @@
 {
   "name": "ng2-file-type",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "description": "Angular input file type directive",
   "keywords": [
@@ -41,7 +41,7 @@
     "link": "ngm link -p src --here",
     "lint": "exit 0",
     "pretest": "run-s lint build link",
-    "publish": "ngm publish -p ./dist",
+    "publish": "cd ./dist && npm publish",
     "publish.test": "ngm publish -p ./dist --skip-publish",
     "test": "ng test -sr",
     "test-coverage": "ng test -sr -cc",

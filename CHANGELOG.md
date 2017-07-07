@@ -4,3 +4,7 @@
 * Github pages demo was added
 * Travis CI integration was added
 * Unit & E2E tests were added
+
+<a name="0.0.2"></a>
+## 0.0.2 (2017-07-07)
+* Fix of npm publishing script.
