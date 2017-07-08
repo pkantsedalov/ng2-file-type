@@ -1,6 +1,6 @@
 {
   "name": "ng2-file-type",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "description": "Angular input file type directive",
   "keywords": [
@@ -46,7 +46,6 @@
     "test": "ng test -sr",
     "test-coverage": "ng test -sr -cc",
     "e2e": "ng e2e --bh /",
-    "pree2e": "webdriver-manager update --standalone false --gecko false",
     "version": "npm run flow.changelog && git add -A"
   },
   "main": "bundles/ng2-file-type.umd.js",
@@ -65,7 +64,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@angular/cli": "^1.0.0",
+    "@angular/cli": "^1.2.0",
     "@angular/common": "^4.0.2",
     "@angular/compiler": "^4.0.2",
     "@angular/compiler-cli": "^4.0.2",
@@ -79,6 +78,7 @@
     "@types/node": "^6.0.70",
     "@types/webpack": "^2.2.15",
     "array-includes": "^3.0.3",
+    "awesome-typescript-loader": "^3.2.1",
     "chromedriver": "^2.29.0",
     "classlist-polyfill": "^1.0.3",
     "codelyzer": "~2.0.0-beta.1",
@@ -96,13 +96,14 @@
     "lite-server": "^2.3.0",
     "ngm-cli": "^0.5.0",
     "npm-run-all": "^4.0.2",
-    "protractor": "~4.0.13",
+    "protractor": "^5.1.2",
+    "rimraf": "^2.6.1",
     "rxjs": "^5.2.0",
-    "ts-node": "1.2.1",
+    "ts-node": "^3.2.0",
     "tslib": "^1.6.1",
-    "tslint": "^4.3.0",
+    "tslint": "^5.5.0",
     "tslint-config-valorsoft": "^1.2.0",
-    "typescript": "^2.2.2",
+    "typescript": "^2.4.1",
     "zone.js": "^0.8.5"
   }
 }
